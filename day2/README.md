@@ -107,7 +107,7 @@ docker build . -t Docker-slave
 docker run -it -p 8081:8080 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home Docker-slave
 ```
 
-####5-From jenkins master create new node with the slave container
+##### 5-From jenkins master create new node with the slave container
 
 - Now you need to configure new node in jenkins and add all the slave information.
 
