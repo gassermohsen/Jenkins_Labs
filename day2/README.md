@@ -4,7 +4,7 @@
 
 - First Build jenkins Docker image with docker client installed on it 
 
-```Docker 
+```dockerfile 
 FROM jenkins/jenkins:lts
 USER root
 RUN apt-get update -qq \
