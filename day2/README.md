@@ -1,6 +1,6 @@
-#### Jenkins Day2 
+### Jenkins Day2 
 
-#####1- Configure jenkins image to run docker commands on your host docker daemon
+####1- Configure jenkins image to run docker commands on your host docker daemon
 
 - First Build jenkins Docker image with docker client installed on it 
 
@@ -26,7 +26,7 @@ docker run -it -p 8081:8080 -v /var/run/docker.sock:/var/run/docker.sock -v jenk
 
 
 
-#####2- Create CI/CD for this repo https://github.com/mahmoud254/jenkins_nodejs_example.git
+####2- Create CI/CD for this repo https://github.com/mahmoud254/jenkins_nodejs_example.git
 
 - Create pipeline in jenkins with the following code 
 
@@ -61,7 +61,7 @@ pipeline {
 ```
 
 
-#####3- Create docker file to build image for jenkins slave 
+####3- Create docker file to build image for jenkins slave 
 
 
 - Create Dockerfile
@@ -91,7 +91,7 @@ CMD ["/bin/bash"]
 
 ```
 
-#####4- Create container from this image and configure ssh 
+####4- Create container from this image and configure ssh 
 
 - Build this image 
 
@@ -107,7 +107,7 @@ docker build . -t Docker-slave
 docker run -it -p 8081:8080 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home Docker-slave
 ```
 
-#####5-From jenkins master create new node with the slave container
+####5-From jenkins master create new node with the slave container
 
 - Now you need to configure new node in jenkins and add all the slave information.
 
