@@ -122,3 +122,93 @@ docker run -it -p 8081:8080 -v /var/run/docker.sock:/var/run/docker.sock -v jenk
  
 
 
+##### 6- Integrate slack with jenkins 
+
+- Install slack plugin 
+- Configure jenkins on slack workspace
+
+![Screenshot](screenshots/1.png)
+
+
+##### 7- Send slack message when stage in your pipeline is successful
+
+![Screenshot](screenshots/2.png)
+
+
+##### 8- Install audit logs plugin and test it 
+
+![Screenshot](screenshots/3.png)
+![Screenshot](screenshots/4.png)
+
+##### 9- Fork the following repo https://github.com/mahmoud254/Booster_CI_CD_Project and add dockerfile to run this django app and use github actions to build the docker image and push it to your dockerhub
+
+- Add docker hub account id and password as a secret in github 
+- Add docker file with the following code 
+
+```Dockerfile
+# Use an official Python image as the base image
+FROM python:3.9
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
+
+# Install the required packages
+RUN pip install -r requirements.txt
+
+# Copy the rest of the application files to the container
+COPY . .
+
+# Set environment variables for the Django app
+ENV DJANGO_SETTINGS_MODULE=myproject.settings
+ENV PYTHONUNBUFFERED=1
+
+# Run migrations and collectstatic files
+RUN python manage.py 
+
+# Start the Django development server on port 8000
+CMD ["python", "manage.py"]
+``` 
+
+- Go to github actions and add this action code 
+
+```yaml
+
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run:
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build the Docker image
+      run: docker build . -f Dockerfile -t ${{secrets.DOCKER_USER}}/jenkins_lab2
+    - name: Docker push
+      run: docker push ${{secrets.DOCKER_USER}}/jenkins_lab2
+```
+
+--- 
+
+![Screenshot](screenshots/5.png)
+
+---
+- Image Pushed to my docker hub 
+![Screenshot](screenshots/6.png)
+
